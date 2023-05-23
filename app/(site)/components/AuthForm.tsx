@@ -24,7 +24,7 @@ const AuthForm = () => {
         if (session?.status === 'authenticated') {
             router.push('./users')
         }
-    }, [session?.status])
+    }, [router, session?.status])
 
     const toogleVariant = useCallback(() => {
         setVariant(variant === 'LOGIN' ? 'REGISTER' : 'LOGIN');
@@ -101,7 +101,7 @@ const AuthForm = () => {
                         <Input
                             id="name"
                             label="Name"
-                            regiter={register}
+                            register={register}
                             errors={errors}
                             disabled={isLoading}
                             required
@@ -111,7 +111,7 @@ const AuthForm = () => {
                         id="email"
                         label="Email"
                         type="email"
-                        regiter={register}
+                        register={register}
                         errors={errors}
                         disabled={isLoading}
                     />
@@ -119,7 +119,7 @@ const AuthForm = () => {
                         id="password"
                         label="Password"
                         type="password"
-                        regiter={register}
+                        register={register}
                         errors={errors}
                         disabled={isLoading}
                     />
