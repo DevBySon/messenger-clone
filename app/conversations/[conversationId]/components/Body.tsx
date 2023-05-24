@@ -3,9 +3,9 @@
 
 import { FullMessageType } from "@/app/types";
 import { FC, useEffect, useRef, useState } from "react";
-import MessageBox from "./MessageBox";
+import MessageBox from "./Messagebox";
 import axios from "axios";
-import useConversation from "@/app/hooks/useConversations";
+import useConversation from "@/app/hooks/useConversation";
 
 interface BodyProps {
   initialMessages: FullMessageType[];
