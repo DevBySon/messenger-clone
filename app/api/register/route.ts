@@ -1,26 +1,52 @@
-import bcrypt from "bcrypt";
+import getCurrentUser from "@/app/actions/getCurrentUser";
+import { NextResponse } from "next/server"
+import prisma from '@/app/libs/prismadb';
 
-import prisma from "@/app/libs/prismadb";
-import { NextResponse } from "next/server";
-
-export async function POST(req: Request) {
-    try {
+export async function POST (req: Request) {
+    try{ 
+        const currntUser = await getCurrentUser();
         const body = await req.json();
-        const { email, name, password } = body;
-        if (!email || !name || !password) {
-            return new NextResponse("Missing info", { status: 404 });
+        const {message, image, conversationId} = body;
+        if(!currntUser?.id || !currntUser?.email) {
+            return new NextResponse('unauthorized', {status:401})
         }
-        const hashedPassword = await bcrypt.hash(password, 12);
-        const user = await prisma.user.create({
+        const newMessage = await prisma.message.create({
             data: {
-                email,
-                name,
-                hashedPassword,
+                body: message,
+                image: image,
+                conversation: {
+                    connect: {id: conversationId}
+                },
+                sender: {
+                    connect: {id: currntUser.id}
+                },
+                seen: {
+                    connect: {id: currntUser.id}
+                }
             },
-        });
-        return NextResponse.json(user);
+            include: {
+                seen: true,
+                sender: true
+            }
+        })
+        const updateConversation = await prisma.conversation.update({
+            where: {id: conversationId},
+            data: {
+                lastMessageAt: new Date(),
+                messages: {
+                    connect: {id: newMessage.id}
+                }
+            },
+            include: {
+                users: true,
+                messages: {
+                    include: {seen:true}
+                }
+            }
+        })
+        return NextResponse.json(newMessage);
     } catch (err: any) {
-        console.log(err, 'REGISTER ERROR');
-        return new NextResponse('Internal errors', { status: 500 });
+        console.log(err, 'Error Message')
+        return new NextResponse('internal error', {status:500})
     }
 }

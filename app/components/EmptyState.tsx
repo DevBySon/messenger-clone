@@ -1,26 +1,51 @@
-const EmptyState = () => {
-  return ( 
-    <div 
-      className="
-        px-4 
-        py-10 
-        sm:px-6 
-        lg:px-8 
-        lg:py-6 
-        h-full
-        flex 
-        justify-center 
-        items-center 
-        bg-gray-100
-      "
-    >
-      <div className="text-center items-center flex flex-col">
-        <h3 className="mt-2 text-2xl font-semibold text-gray-900">
-          Select a chat or start a new conversation
-        </h3>
-      </div>
-    </div>
-  );
+import clsx from 'clsx';
+
+type ButtonProps = {
+    type?: 'button' | 'submit' | 'reset' | undefined;
+    fullWidth?: boolean;
+    children?: React.ReactNode;
+    onClick?: () => void;
+    secondary?: boolean;
+    danger?: boolean;
+    disabled?: boolean;
+};
+
+const Button: React.FC<ButtonProps> = ({
+    type,
+    fullWidth,
+    children,
+    onClick,
+    secondary,
+    danger,
+    disabled,
+}) => {
+    return (
+        <button
+            onClick={onClick}
+            type={type}
+            disabled={disabled}
+            className={clsx(`
+            flex
+            justify-center
+            rounded-md
+            px-3
+            py-2
+            text-sm
+            font-semibold
+            focus-visible:outline
+            focus-visible:outline-2
+            focus-visible:outline-offset-2
+        `,
+                disabled && "opacity-50 cursor-default",
+                fullWidth && "w-full",
+                secondary ? "text-gray-900" : "text-white",
+                danger && "bg-rose-500 hover:bg-rose-600 focus-visible:outline-rose-600",
+                !secondary && !danger && "bg-sky-500 hover:bg-sky-600 focus-visible:outline-sky-600"
+            )}
+        >
+            {children}
+        </button>
+    )
 }
- 
-export default EmptyState;
+
+export default Button;

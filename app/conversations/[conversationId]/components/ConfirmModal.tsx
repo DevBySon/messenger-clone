@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import Modal from '@/app/components/modals/Modal';
 import Button from '@/app/components/Button';
 import { toast } from 'react-hot-toast';
-import useConversation from '@/app/hooks/useConversations';
+import useConversation from '@/app/hooks/useConversation';
 
 interface ConfirmModalProps {
   isOpen?: boolean;

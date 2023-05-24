@@ -6,7 +6,7 @@ import { HiUsers } from 'react-icons/hi2';
 import { BiLogOut } from "react-icons/bi";
 import { signOut } from "next-auth/react";
 
-import useConversation from "./useConversations";
+import useConversation from "./useConversation";
 const useRoutes = () => {
     const pathname = usePathname();
     const { conversationId } = useConversation();
