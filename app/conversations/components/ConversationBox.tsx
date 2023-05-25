@@ -9,6 +9,7 @@ import clsx from "clsx";
 import { FullConversationType } from "@/app/types";
 import useOtherUser from "@/app/hooks/useOtherUser";
 import Avatar from "@/app/components/Avatar";
+import AvatarGroup from "@/app/components/AvatarGroup";
 
 type ConversationBoxProps = {
     data: FullConversationType,
@@ -34,8 +35,8 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({ data, selected }) => 
         return seenArr.filter(user => user.email === userEmail).length !== 0;
     }, [userEmail, lastMessage])
     const lastMessageText = useMemo(() => {
-        if(lastMessage?.image) return 'Sent an image';
-        if(lastMessage?.body) return lastMessage.body;
+        if (lastMessage?.image) return 'Sent an image';
+        if (lastMessage?.body) return lastMessage.body;
         return "Started a conversation"
     }, [lastMessage])
     return (
@@ -45,7 +46,7 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({ data, selected }) => 
                 clsx(`w-full relative flex items-center space-x-3 p-3 hover:bg-neutral-100 rounded-lg transition cursor-pointer`,
                     selected ? 'bg-neutral-100' : 'bg-white')
             }>
-            <Avatar user={otherUser} />
+            {data.isGroup ? (<AvatarGroup users={data.users}/>) : (<Avatar user={otherUser} />)}
             <div className="min-w-0 flex-1">
                 <div className="focus:outline-none">
                     <div className="flex justify-between items-center mb-1">
