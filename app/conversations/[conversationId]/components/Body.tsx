@@ -1,15 +1,12 @@
-'use client';
+"use client";
 
-import axios from "axios";
-import { useEffect, useRef, useState } from "react";
 
 import { pusherClient } from "@/app/libs/pusher";
 import useConversation from "@/app/hooks/useConversation";
-
 import { FullMessageType } from "@/app/types";
-import { find } from "lodash";
-import MessageBox from "./Messagebox";
+import { FC, useEffect, useRef, useState } from "react";
 
+import axios from "axios";
 interface BodyProps {
   initialMessages: FullMessageType[];
 }
